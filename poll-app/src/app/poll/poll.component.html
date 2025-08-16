@@ -1,0 +1,51 @@
+<h2 class="text-center mt-4 text-primary">Available Polls</h2>
+
+<div class="container mt-4">
+
+  <!-- Create Poll Section -->
+  <h2 class="text-center text-success mb-4">Create Poll</h2>
+
+  <div class="mb-3">
+    <input [(ngModel)]="newPoll.question"
+           placeholder="Poll Question"
+           class="form-control form-control-lg shadow-sm"
+           required />
+  </div>
+
+  <div class="option-container mb-3">
+    <div *ngFor="let option of newPoll.options; let i = index; trackBy: trackByIndex"
+         class="input-group mb-2 shadow-sm">
+      <input [(ngModel)]="option.optionText"
+             placeholder="Option"
+             class="form-control"
+             required />
+      <button (click)="newPoll.options.splice(i, 1)"
+              *ngIf="newPoll.options.length > 2"
+              class="btn btn-outline-danger">
+        Remove
+      </button>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mb-4">
+    <button (click)="addOption()" class="btn btn-outline-secondary">Add More Options</button>
+    <button (click)="createPoll()" class="btn btn-success">Create Poll</button>
+  </div>
+
+  <!-- Poll Display Section -->
+  <div class="container">
+    <div *ngFor="let poll of polls" class="card mb-4 shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="card-title text-primary">{{ poll.question }}</h5>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button (click)="vote(poll.id, i)"
+                  class="btn btn-outline-primary"
+                  *ngFor="let option of poll.options; let i = index">
+            {{ option.optionText }} ({{ option.voteCount }} votes)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
